@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nginx-demo.fullname" . }}-nginx
+  labels:
+  {{- include "nginx-demo.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.nginx.replicas }}
+  selector:
+    matchLabels:
+      run: nginx
+    {{- include "nginx-demo.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        run: nginx
+      {{- include "nginx-demo.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.nginx.nginx.image.repository }}:{{ .Values.nginx.nginx.image.tag
+          | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.nginx.nginx.imagePullPolicy }}
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: {}

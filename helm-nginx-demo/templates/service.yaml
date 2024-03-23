@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nginx-demo.fullname" . }}-nginx
+  labels:
+    run: nginx
+  {{- include "nginx-demo.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.nginx.type }}
+  selector:
+    run: nginx
+  {{- include "nginx-demo.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.nginx.ports | toYaml | nindent 2 }}

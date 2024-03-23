@@ -1,0 +1,14 @@
+kubernetesClusterDomain: cluster.local
+nginx:
+  nginx:
+    image:
+      repository: nginx
+      tag: alpine
+    imagePullPolicy: IfNotPresent
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 80
+  replicas: 1
+  type: NodePort
