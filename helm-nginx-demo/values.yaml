@@ -10,5 +10,5 @@ nginx:
     port: 8080
     protocol: TCP
     targetPort: 80
-  replicas: 1
+  replicas: 3
   type: NodePort
